@@ -5,7 +5,7 @@ permalink: /
 subtitle: <a href='#'>Preach:</a> Progress beats perfection. Stop thinking and start doing
 profile:
   align: right
-  image: prof_pic.jpg
+  image: weiquan.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>Country: Singapore</p>
