@@ -1,14 +1,9 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - tsuweiquan
 
-repo_description_lines_max: 2
+repo_description_lines_max: 3
 
 github_repos:
-  - alshedivat/al-folio
-  - jekyll/jekyll
-  - twbs/bootstrap
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - mathjax/MathJax
-  - jpswalsh/academicons
+  - tsuweiquan/terragrunt-poc
+  - tsuweiquan/AWS-IAM-Extractor
+  - tsuweiquan/GetCryptoPriceV2_bot
