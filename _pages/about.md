@@ -20,7 +20,7 @@ I am Passionate Computer Engineer with a strong interest in Cloud Computing and 
 
 As a techie, my interests lie in infrastructure, networking, and programming, with an aspiration to become a little better everyday, even if it's just a bit.
 
-Today, I live on this phrase `"Progress beats perfection. Stop thinking and start doing`. It was derived from this [video](https://youtu.be/og2unLDWNHg?si=gpYeoJew04LC7y6a) but of course, be more than just a tool 🪛.
+Today, I live on this phrase `"Progress beats perfection. Stop thinking and start doing"`. It was derived from this [video](https://youtu.be/og2unLDWNHg?si=gpYeoJew04LC7y6a) but of course, be more than just a tool 🪛.
 
 In 2024, I realized that I had been overthinking quite a bit, which ultimately killed the ideas that I had. Overthinking caused me to make safe decisions and lose out on opportunities.
 
