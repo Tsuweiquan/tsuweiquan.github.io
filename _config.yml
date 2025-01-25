@@ -89,6 +89,7 @@ blog_name: 🪛📖 # blog_name will be displayed in your blog page
 blog_description: My technical journey log
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
+future: true
 
 # Pagination
 pagination:
