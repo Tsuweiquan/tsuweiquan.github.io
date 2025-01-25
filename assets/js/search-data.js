@@ -30,18 +30,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-terragrunt",
-      
-        title: "Terragrunt",
-      
-      description: "Setting up IaC with Terragrunt",
-      section: "Posts",
-      handler: () => {
-        
-          window.location.href = "/blog/2025/terragrunt/";
-        
-      },
-    },{
+        },{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
