@@ -7,30 +7,65 @@ tags: Terragrunt AWS Terraform
 categories: infrastructure-as-code
 ---
 
-<!-- Jean shorts raw denim Vice normcore, art party High Life PBR skateboard stumptown vinyl kitsch. Four loko meh 8-bit, tousled banh mi tilde forage Schlitz dreamcatcher twee 3 wolf moon. Chambray asymmetrical paleo salvia, sartorial umami four loko master cleanse drinking vinegar brunch. [Pinterest](https://www.pinterest.com) DIY authentic Schlitz, hoodie Intelligentsia butcher trust fund brunch shabby chic Kickstarter forage flexitarian. Direct trade <a href="https://en.wikipedia.org/wiki/Cold-pressed_juice">cold-pressed</a> meggings stumptown plaid, pop-up taxidermy. Hoodie XOXO fingerstache scenester Echo Park. Plaid ugh Wes Anderson, freegan pug selvage fanny pack leggings pickled food truck DIY irony Banksy.
+# Pre-requisite: Terraform
+Before understanding more about Terragrunt, it is required to know what is terraform and how can Terragrunt solve some issues in Terraform.
 
-#### Hipster list
+Terraform, an infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share. 
+- Ref: https://developer.hashicorp.com/terraform/intro
 
-- brunch
-- fixie
-- raybans
-- messenger bag
+Terraform allow us to create infrastructure or cloud resources by writing a code of resource block. Undeniably, it's a great tool when we need to create the same infrastructure across different environment. We just need to apply the same configuration or code block across different environment, and we should expect the configuration of the infrastructure to be equal across different environments.
 
-#### Check List
+A typical yet simplest terraform folder structure will look like the following, where each environment would have their own state file (terraform.tfstate). Resources meant to be created in that environment should be written to its respective folder. 
 
-- [x] Brush Teeth
-- [ ] Put on socks
-  - [x] Put on left sock
-  - [ ] Put on right sock
-- [x] Go to school
+We can run terraform in the `terraform_root/environments/dev/` folder to deploy/create resources for `dev` environment, similarly for `staging` and `prod`.
+```
+.
+└── terraform_root/
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+    ├── versions.tf
+    ├── provider.tf
+    ├── README.md
+    └── environments/
+        ├── dev/
+        │   ├── main.tf
+        │   └── terraform.tfvars
+        ├── staging/
+        │   ├── main.tf
+        │   └── terraform.tfvars
+        └── prod/
+            ├── main.tf
+            └── terraform.tfvars
+```
 
-Hoodie Thundercats retro, tote bag 8-bit Godard craft beer gastropub. Truffaut Tumblr taxidermy, raw denim Kickstarter sartorial dreamcatcher. Quinoa chambray slow-carb salvia readymade, bicycle rights 90's yr typewriter selfies letterpress cardigan vegan.
+### Terraform Impending Problems
 
+- Code Duplication
+  - Resources created in `dev` environment needs to be copied over to `staging` and `prod` environment. Copying of resources might look alright but when your environment scales up, this become really taxing and error-prone.
+  - Not a DRY (Don't Repeat Yourself) approach.
+  - Very prone to Human Error
+- Single state per environment can be hard to manage
+  - Terraform state can easily be bloated up.
+  - `Terraform plan/apply/refresh` will take longer and longer as your infrastructure scales up
+- Difficult to do logical separation of projects
+  - Tagging could be a hassle
+- Complexity increases with Region based deployments
+  - If you are using AWS, how can we tweak the folder structure to accommodate deployment to different regions (`us-east-1` & `ap-southeast-1`)? 
+    - The simplest way is to rename `dev` folder to `dev-us` and create another `dev-sg` folder. Next, copy the required code in `dev-us` into `dev-sg` and start running terraform in `dev-sg` to deploy resources in `ap-southeast-1` region.
+      - This method is straight-forward but just not ideal...
+
+These are the problems I faced when I was working in my organization. Terraform state becomes so huge that we start to use `-target=` arguments during `terraform plan` to speed up the deployment process. 
+With much faster processing speed and efficiency, everyone starts to use `-target=` as the default practice, which is a BAD PRACTICE!
+
+> Targeting individual resources can be useful for troubleshooting errors, but should not be part of your normal workflow.
+  - ref: [Target resources](https://developer.hashicorp.com/terraform/tutorials/state/resource-targeting) 
+
+As time goes by, with every run becomes a target run, this results in *Infrastructure Drift*. God knows when was the last time we ran terraform apply on the entire plan, and this becomes a big problem! No engineers would take the risk to run a full sync, risking the modification or deletion of some resources that we have no idea of.
+
+Terragrunt can absolutely solve the issues I mentioned above!
 <hr>
 
-Pug heirloom High Life vinyl swag, single-origin coffee four dollar toast taxidermy reprehenderit fap distillery master cleanse locavore. Est anim sapiente leggings Brooklyn ea. Thundercats locavore excepteur veniam eiusmod. Raw denim Truffaut Schlitz, migas sapiente Portland VHS twee Bushwick Marfa typewriter retro id keytar.
+# Terragrunt
 
-> We do not grow absolutely, chronologically. We grow sometimes in one dimension, and not in another, unevenly. We grow partially. We are relative. We are mature in one realm, childish in another.
-> —Anais Nin
 
-Fap aliqua qui, scenester pug Echo Park polaroid irony shabby chic ex cardigan church-key Odd Future accusamus. Blog stumptown sartorial squid, gastropub duis aesthetic Truffaut vero. Pinterest tilde twee, odio mumblecore jean shorts lumbersexual. -->
