@@ -5,6 +5,8 @@ date: 2025-01-25 18:21:00
 description: Setting up IaC with Terragrunt
 tags: Terragrunt AWS Terraform
 categories: infrastructure-as-code
+toc:
+  beginning: true
 ---
 
 # Pre-requisite: Terraform
