@@ -1,1 +1,143 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://tsuweiquan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://tsuweiquan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-01-25T10:57:15+00:00</updated><id>https://tsuweiquan.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle></feed>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://tsuweiquan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://tsuweiquan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-01-25T11:04:49+00:00</updated><id>https://tsuweiquan.github.io/feed.xml</id><title type="html">blank</title><subtitle></subtitle><entry><title type="html">Terragrunt</title><link href="https://tsuweiquan.github.io/blog/2025/terragrunt/" rel="alternate" type="text/html" title="Terragrunt"/><published>2025-01-25T18:21:00+00:00</published><updated>2025-01-25T18:21:00+00:00</updated><id>https://tsuweiquan.github.io/blog/2025/terragrunt</id><content type="html" xml:base="https://tsuweiquan.github.io/blog/2025/terragrunt/"><![CDATA[<h1 id="pre-requisite-terraform">Pre-requisite: Terraform</h1> <p>Before understanding more about Terragrunt, it is required to know what is terraform and how can Terragrunt solve some issues in Terraform.</p> <p>Terraform, an infrastructure as code tool that lets you define both cloud and on-prem resources in human-readable configuration files that you can version, reuse, and share.</p> <ul> <li>Ref: https://developer.hashicorp.com/terraform/intro</li> </ul> <p>Terraform allow us to create infrastructure or cloud resources by writing a code of resource block. Undeniably, it’s a great tool when we need to create the same infrastructure across different environment. We just need to apply the same configuration or code block across different environment, and we should expect the configuration of the infrastructure to be equal across different environments.</p> <p>A typical yet simplest terraform folder structure will look like the following, where each environment would have their own state file (terraform.tfstate). Resources meant to be created in that environment should be written to its respective folder.</p> <p>We can run terraform in the <code class="language-plaintext highlighter-rouge">terraform_root/environments/dev/</code> folder to deploy/create resources for <code class="language-plaintext highlighter-rouge">dev</code> environment, similarly for <code class="language-plaintext highlighter-rouge">staging</code> and <code class="language-plaintext highlighter-rouge">prod</code>.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+└── terraform_root/
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+    ├── versions.tf
+    ├── provider.tf
+    ├── README.md
+    └── environments/
+        ├── dev/
+        │   ├── main.tf
+        │   └── terraform.tfvars
+        ├── staging/
+        │   ├── main.tf
+        │   └── terraform.tfvars
+        └── prod/
+            ├── main.tf
+            └── terraform.tfvars
+</code></pre></div></div> <h2 id="terraform-impending-problems">Terraform Impending Problems</h2> <ul> <li>Code Duplication <ul> <li>Resources created in <code class="language-plaintext highlighter-rouge">dev</code> environment needs to be copied over to <code class="language-plaintext highlighter-rouge">staging</code> and <code class="language-plaintext highlighter-rouge">prod</code> environment. Copying of resources might look alright but when your environment scales up, this become really taxing and error-prone.</li> <li>Not a DRY (Don’t Repeat Yourself) approach.</li> <li>Very prone to Human Error</li> </ul> </li> <li>Single state per environment can be hard to manage <ul> <li>Terraform state can easily be bloated up.</li> <li><code class="language-plaintext highlighter-rouge">Terraform plan/apply/refresh</code> will take longer and longer as your infrastructure scales up</li> </ul> </li> <li>Difficult to do logical separation of projects <ul> <li>Tagging could be a hassle</li> </ul> </li> <li>Complexity increases with Region based deployments <ul> <li>If you are using AWS, how can we tweak the folder structure to accommodate deployment to different regions (<code class="language-plaintext highlighter-rouge">us-east-1</code> &amp; <code class="language-plaintext highlighter-rouge">ap-southeast-1</code>)? <ul> <li>The simplest way is to rename <code class="language-plaintext highlighter-rouge">dev</code> folder to <code class="language-plaintext highlighter-rouge">dev-us</code> and create another <code class="language-plaintext highlighter-rouge">dev-sg</code> folder. Next, copy the required code in <code class="language-plaintext highlighter-rouge">dev-us</code> into <code class="language-plaintext highlighter-rouge">dev-sg</code> and start running terraform in <code class="language-plaintext highlighter-rouge">dev-sg</code> to deploy resources in <code class="language-plaintext highlighter-rouge">ap-southeast-1</code> region. <ul> <li>This method is straight-forward but just not ideal…</li> </ul> </li> </ul> </li> </ul> </li> </ul> <p>These are the problems I faced when I was working in my organization. Terraform state becomes so huge that we start to use <code class="language-plaintext highlighter-rouge">-target=</code> arguments during <code class="language-plaintext highlighter-rouge">terraform plan</code> to speed up the deployment process. With much faster processing speed and efficiency, everyone starts to use <code class="language-plaintext highlighter-rouge">-target=</code> as the default practice, which is a BAD PRACTICE!</p> <blockquote> <p>Targeting individual resources can be useful for troubleshooting errors, but should not be part of your normal workflow.</p> </blockquote> <ul> <li>ref: <a href="https://developer.hashicorp.com/terraform/tutorials/state/resource-targeting">Target resources</a></li> </ul> <p>As time goes by, with every run becomes a target run, this results in <em>Infrastructure Drift</em>. God knows when was the last time we ran terraform apply on the entire plan, and this becomes a big problem! No engineers would take the risk to run a full sync, risking the modification or deletion of some resources that we have no idea of.</p> <p>Terragrunt can absolutely solve the issues I mentioned above!</p> <hr/> <h1 id="lets-go-terragrunt">Let’s Go Terragrunt!</h1> <h3 id="what-is-terragrunt">What is Terragrunt?</h3> <p><a href="https://terragrunt.gruntwork.io/">Terragrunt</a> is a thin wrapper for Terraform. It provides additional functionality and abstraction to enhance infrastructure management. It works seamlessly with terraform and even the cli commands are similar to terraform.</p> <h4 id="terragrunt-key-features">Terragrunt key features</h4> <ul> <li>Code Organization; Great for Multi Region &amp; Multi Environment <ul> <li>It has an ideal folder structure to help us handle multi-region and multi-environment deployments</li> <li>It is easy to maintain large-scale infrastructure</li> </ul> </li> <li>DRY (Don’t Repeat Yourself) configurations <ul> <li>You do not need to copy and paste configurations from environment to environment. Writing the IaC once and set the parameters that needs to be changed across environment into variables</li> </ul> </li> <li>Break into Smaller states <ul> <li>Instead of having 1 large state for 1 environment, we can create multiple <code class="language-plaintext highlighter-rouge">stacks</code>. Each stack be logically defined for an application needs or flow. Resources that affect the application needs/flow can be placed in its own <code class="language-plaintext highlighter-rouge">stack</code></li> <li>Ease of debugging. When we identify there’s an issue with the application flow, we can easily pinpoint to the stack and look into it.</li> </ul> </li> <li>Ease of managing state drift <ul> <li>we can easily run Terragrunt plan on each <code class="language-plaintext highlighter-rouge">stack</code> to ensure our small states are up-to-date. Even if there are changes, we can easily notify the team who was in-charge of the stack and resolve it.</li> </ul> </li> </ul> <p>You can fully appreciate Terragrunt after you have felt the pain using terraform in its most simplistic structure. Terragrunt as well have its drawbacks and I think the biggest drawback for now is the learning curve. I personally have not used Terragrunt for a production setup, so I couldn’t comment much until I have experience it.</p> <h2 id="my-terragrunt-setup">My Terragrunt Setup</h2> <p>This Terragrunt configuration manages infrastructure across multiple AWS regions (ap-northeast-1 and ap-southeast-1) and environments (dev, uat, and prod). It’s designed to support a scalable and maintainable infrastructure-as-code approach for a distributed application.</p> <p>You can reference to my <a href="https://github.com/Tsuweiquan/terragrunt-poc">Terragrunt-POC</a> repo to take a look.</p> <h3 id="requirements">Requirements:</h3> <ol> <li>Multi-Region Support: <ul> <li>Infrastructure is deployed across two Asia-Pacific regions, allowing for geographical distribution and redundancy.</li> </ul> </li> <li>Environment Segregation: <ul> <li>Each region has separate configurations for development (dev), user acceptance testing (uat), and production (prod) environments, ensuring isolation and promoting a robust deployment pipeline.</li> </ul> </li> <li>Modular Stacks: <ul> <li>The infrastructure is divided into reusable stacks: <ul> <li>s3_frontend_stack: Manage S3 buckets for frontend static content hosting.</li> <li>another_backend_stack: Presumably handles backend infrastructure components.</li> </ul> </li> </ul> </li> <li>DRY Principle: <ul> <li>The use of a root terragrunt.hcl file and stack-specific configurations promotes code reuse and reduces repetition.</li> </ul> </li> <li>Flexible Deployment: <ul> <li>This structure allows for easy deployment of specific stacks in particular environments and regions, facilitating targeted updates and rollouts.</li> </ul> </li> <li>Stack Dependency: <ul> <li>The stacks should be configured in a way that a dependency link can be formed.</li> </ul> </li> <li>Global Variables: <ul> <li>Global variables can be inferred by folder name in the path, allowing all stacks to utilize the variables and apply to their resources.</li> </ul> </li> <li>Generating files automatically via Terragrunt</li> </ol> <h2 id="folder-tree">Folder Tree</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>├── readme.md
+├── terraform-root
+│   ├── ap-northeast-1
+│   │   ├── dev
+│   │   │   ├── another_backend_stack
+│   │   │   │   └── terragrunt.hcl
+│   │   │   └── s3_frontend_stack
+│   │   │       └── terragrunt.hcl
+│   │   ├── prod
+│   │   │   └── terragrunt.hcl
+│   │   └── uat
+│   │       └── terragrunt.hcl
+│   ├── ap-southeast-1
+│   │   ├── dev
+│   │   │   ├── another_backend_stack
+│   │   │   │   └── terragrunt.hcl
+│   │   │   └── s3_frontend_stack
+│   │   │       └── terragrunt.hcl
+│   │   ├── prod
+│   │   │   └── terragrunt.hcl
+│   │   └── uat
+│   │       └── terragrunt.hcl
+│   └── stacks
+│       ├── another_backend_stack
+│       │   ├── main.tf
+│       │   ├── terragrunt.hcl
+│       │   └── variables.tf
+│       └── s3_frontend_stack
+│           ├── main.tf
+│           ├── terragrunt.hcl
+│           └── variables.tf
+└── terragrunt.hcl
+</code></pre></div></div> <h2 id="stacks">Stacks</h2> <p>I have created 2 sample stacks, <code class="language-plaintext highlighter-rouge">s3_frontend_stack</code> and <code class="language-plaintext highlighter-rouge">another_backend_stack</code> in the <code class="language-plaintext highlighter-rouge">/terraform-root/stacks/</code> directory. In this folder, the DRY terraform code should be written here.</p> <p>In <code class="language-plaintext highlighter-rouge">/terraform-root/stacks/s3_frontend_stack/main.tf</code>, I have inferred a module from <code class="language-plaintext highlighter-rouge">terraform-aws-modules/s3-bucket/aws</code> to create a S3 bucket for me in AWS. Take note that terraform code below is DRY. Anything that should be changed for different environment or region should be pointed to a variable. Any other configuration that you want it to be fixed across env can be hard-coded.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module "s3_wq_static_server_new" {
+  source  = "terraform-aws-modules/s3-bucket/aws"
+  version = "4.3.0"
+  bucket  = "my-frontend-static-server-${var.env}-${var.region-suffix}"
+  acl     = "private"
+
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
+
+  versioning = {
+    enabled = true
+  }
+}
+</code></pre></div></div> <p>In <code class="language-plaintext highlighter-rouge">/terraform-root/stacks/s3_frontend_stack/variables.tf</code>, I have declared the variables that are used in the <code class="language-plaintext highlighter-rouge">main.tf</code> file. In this particular case, I only need to declare 2 variables.</p> <p>Take note that I have set the variables to <code class="language-plaintext highlighter-rouge">null</code>. Setting the default value here to <code class="language-plaintext highlighter-rouge">null</code> is an indication that this variable here is for declarative purposes only and this default value should not be used. It’s my personal preference to do this as these variables should be inferred from another folder in terragrunt. Furthermore, setting the variable value to null will cause terragrunt to encounter an error if no variable was set in the right place. I prefer to hit an error during <code class="language-plaintext highlighter-rouge">terragrunt plan</code>, rather than setting the wrong default value.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>variable "env" {
+  default = null
+}
+
+variable "region-suffix" {
+  default = null
+}
+</code></pre></div></div> <p>In <code class="language-plaintext highlighter-rouge">/terraform-root/stacks/s3_frontend_stack/terragrunt.hcl</code>, it’s as simple as it gets. This file is used to direct terragrunt on where to look for the root <code class="language-plaintext highlighter-rouge">terragrunt.hcl</code>.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include "root" {
+  path = find_in_parent_folders()
+}
+</code></pre></div></div> <h2 id="multi-region-and-multi-environment">Multi Region and Multi Environment</h2> <p>Firstly, I have created 2 folders under <code class="language-plaintext highlighter-rouge">terraform_root/</code>, with AWS region name.</p> <ul> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1</code></li> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-northeast-1</code></li> </ul> <p>Under the region folder, I declared the environment folders</p> <ul> <li>ap-southeast-1 <ul> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1/dev</code></li> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1/uat</code></li> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1/prod</code></li> </ul> </li> <li>ap-northeast-1 <ul> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-northeast-1/dev</code></li> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-northeast-1/uat</code></li> <li><code class="language-plaintext highlighter-rouge">terraform_root/ap-northeast-1/prod</code></li> </ul> </li> </ul> <p>Under each environment folder, this is the place we should set the value for our variables for each of our stack.</p> <p>Looking into <code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1/dev/s3_frontend_stack/terragrunt.hcl</code>. We can easily set variables value specifically for <code class="language-plaintext highlighter-rouge">s3_frontend_stack</code> variables. In this case, we can actually set the value for <code class="language-plaintext highlighter-rouge">var.env</code> and <code class="language-plaintext highlighter-rouge">var.region-suffix</code> here,</p> <p>However, I did not do it because this variable value is required to set in all other stack, and potentially we will be repeating the same value to be set. This does not follow DRY approach, so I will be setting this variable in another file.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>include "root" {
+  path = find_in_parent_folders()
+}
+
+terraform {
+  source = "../../../stacks/s3_frontend_stack"
+}
+
+inputs = {
+  # Environment-specific variables for s3_frontend_stack stack
+  # env = "dev"            # can set here but not wise to do so, it's not DRY
+  # region-suffix = "sg"   # can set here but not wise to do so, it's not DRY
+}
+</code></pre></div></div> <h2 id="global-variables">Global Variables</h2> <p>The global variables can be declared in <code class="language-plaintext highlighter-rouge">/terragrunt.hcl</code>. The root <code class="language-plaintext highlighter-rouge">terragrunt.hcl</code> file is a configuration file that defines settings for a Terraform project’s infrastructure. This is also the file that declares the backend to store the remote state. In this file, we can also declare global variables which I do so based on folder path.</p> <p>terragrunt.hcl</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>locals {
+  path_components = split("/", path_relative_to_include())
+  region = local.path_components[1]
+  env = local.path_components[2]
+}
+
+# Global Variables across region and environment
+inputs = {
+  region = local.region
+  env = local.env
+  region-suffix = local.region == "ap-southeast-1" ? "sg" : local.region == "ap-northeast-1" ? "tk" : ""
+}
+</code></pre></div></div> <p>Using locals, I used a split function with the <code class="language-plaintext highlighter-rouge">path_relative_to_include()</code> to extract the value for env and region. My fixed folder structure can easily help us to set the <code class="language-plaintext highlighter-rouge">var.env</code> and <code class="language-plaintext highlighter-rouge">var.region-suffix</code> when we run terragunt in the stack.</p> <p>Example: if we run terragrunt on the <code class="language-plaintext highlighter-rouge">s3_frontend_stack</code> stack in <code class="language-plaintext highlighter-rouge">dev</code> environment, the <code class="language-plaintext highlighter-rouge">terraform_root/ap-southeast-1/dev/s3_frontend_stack/</code> path will be referenced.</p> <p>From this path, terragrunt can set</p> <ul> <li>var.region -&gt; “ap-southeast-1”</li> <li>var.env -&gt; “dev”</li> <li>var.region-suffix -&gt; “sg”</li> </ul> <p>terragrunt on the <code class="language-plaintext highlighter-rouge">s3_frontend_stack</code> stack in <code class="language-plaintext highlighter-rouge">dev</code> environment will apply the above value to it’s stack. This method is very good to do resource tagging!</p> <h2 id="generating-files">Generating files</h2> <p>Terragrunt offers a feature to generate files that are duplicated in every stack.<br/> The <code class="language-plaintext highlighter-rouge">generate</code> blocks in Terragrunt allow you to:</p> <ol> <li>Automatically create consistent configuration files across multiple stacks</li> <li>Reduce repetition in your Terraform configurations</li> <li>Ensure uniformity in backend and provider setups</li> </ol> <p>People often use this to generate the <code class="language-plaintext highlighter-rouge">backend.tf</code> and <code class="language-plaintext highlighter-rouge">provider.tf</code> across the stacks.</p> <p>The following below is an example to create a <code class="language-plaintext highlighter-rouge">terraform.tfstate</code> for each stack and a provider for each stack, based on the region that is referred by the folder path.</p> <blockquote> <p>Note: Below is configured to store the state in a fix s3 bucket <code class="language-plaintext highlighter-rouge">207756197509-terragrunt-state</code>. You should be able to variablize this as well, if your prod and non-production AWS account is different with a different s3 bucket name.</p> </blockquote> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>remote_state {
+  backend = "s3"
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite_terragrunt"
+  }
+  config = {
+    bucket = "207756197509-terragrunt-state"
+    key    = "${path_relative_to_include()}/terraform.tfstate"
+    region = "ap-southeast-1"
+    encrypt = true
+    dynamodb_table = "207756197509-terragrunt-state-locking"
+  }
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = &lt;&lt;EOF
+provider "aws" {
+  region = "${local.region}"
+}
+EOF
+}
+</code></pre></div></div> <p>Expected output:</p> <ul> <li>each stack in each region in each environment have a stack of its own.</li> <li>running terragrunt in the <code class="language-plaintext highlighter-rouge">ap-northeast-1</code> will deploy resources to <code class="language-plaintext highlighter-rouge">ap-northeast-1</code> due to the <code class="language-plaintext highlighter-rouge">provider.tf</code> file being generated with the region set to <code class="language-plaintext highlighter-rouge">ap-northeast-1</code></li> </ul> <p>another_backend_stack</p> <ul> <li>s3://207756197509-terragrunt-state/terraform-root/ap-southeast-1/dev/another_backend_module/terraform.tfstate</li> </ul> <p>s3_frontend_stack</p> <ul> <li>s3://207756197509-terragrunt-state/terraform-root/ap-southeast-1/dev/s3_frontend_module/terraform.tfstate</li> </ul> <h3 id="statefile-are-stored-in-s3-with-such-prefix-regionenvironmentstack_name">Statefile are stored in S3 with such prefix /REGION/ENVIRONMENT/STACK_NAME</h3> <p><img src="./2025-01-25-terragrunt-images/image.png" alt=""/> <img src="./2025-01-25-terragrunt-images/image-1.png" alt=""/> <img src="./2025-01-25-terragrunt-images/image-2.png" alt=""/> <img src="./2025-01-25-terragrunt-images/image-3.png" alt=""/></p> <p>States are in S3 bucket, in REGION folder and in ENVIRONMENT folder.</p> <h2 id="how-to-run">How to run</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Ensure you have AWS Access &amp; Secret Key in your pc before running
+# Run aws configure to setup the key
+aws configure
+
+# Verify if you are accessible via aws cli
+aws sts get-caller-identity --no-cli-pager
+
+# This will deploy/create all the stacks in DEV environment
+# - Stack ./dev/another_backend_stack
+# - Stack ./dev/s3_frontend_stack
+cd terraform-root/ap-northeast-1/dev
+terragrunt run-all init
+terragrunt run-all plan
+terragrunt run-all apply
+
+# To deploy a single stack
+cd terraform-root/ap-northeast-1/dev/another_backend_stack
+terragrunt init
+terragrunt plan
+terragrunt apply
+</code></pre></div></div> <h3 id="resources-created-via-terragrunt">Resources created via Terragrunt</h3> <p><img src="./2025-01-25-terragrunt-images/s3-buckets-created.png" alt=""/></p>]]></content><author><name></name></author><category term="infrastructure-as-code"/><category term="Terragrunt"/><category term="AWS"/><category term="Terraform"/><summary type="html"><![CDATA[Setting up IaC with Terragrunt]]></summary></entry></feed>
