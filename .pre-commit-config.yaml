@@ -14,5 +14,5 @@ repos:
         name: run-prettier-locally
         entry: bash -c 'npx prettier . --write'
         language: system
-        # types: [python]
+        types: [python]
         pass_filenames: false
