@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Terragrunt
-date: 2025-01-24 00:00:00
+date: 2025-01-25 18:21:00
 description: Setting up IaC with Terragrunt
 tags: Terragrunt AWS Terraform
 categories: infrastructure-as-code
@@ -330,10 +330,10 @@ s3_frontend_stack
 
 ### Statefile are stored in S3 with such prefix /REGION/ENVIRONMENT/STACK_NAME
 
-![](./2025-01-24-terragrunt-images/image.png)
-![](./2025-01-24-terragrunt-images/image-1.png)
-![](./2025-01-24-terragrunt-images/image-2.png)
-![](./2025-01-24-terragrunt-images/image-3.png)
+![](./2025-01-25-terragrunt-images/image.png)
+![](./2025-01-25-terragrunt-images/image-1.png)
+![](./2025-01-25-terragrunt-images/image-2.png)
+![](./2025-01-25-terragrunt-images/image-3.png)
 
 States are in S3 bucket, in REGION folder and in ENVIRONMENT folder.
 
@@ -364,4 +364,4 @@ terragrunt apply
 
 # Resources created via Terragrunt
 
-![](./2025-01-24-terragrunt-images/s3-buckets-created.png)
+![](./2025-01-25-terragrunt-images/s3-buckets-created.png)
