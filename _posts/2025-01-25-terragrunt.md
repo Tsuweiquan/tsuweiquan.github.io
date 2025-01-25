@@ -5,8 +5,9 @@ date: 2025-01-25 18:21:00
 description: Setting up IaC with Terragrunt
 tags: Terragrunt AWS Terraform
 categories: infrastructure-as-code
+future: true
 toc:
-  beginning: true
+  sidebar: left
 ---
 
 # Pre-requisite: Terraform
@@ -44,7 +45,7 @@ We can run terraform in the `terraform_root/environments/dev/` folder to deploy/
             └── terraform.tfvars
 ```
 
-### Terraform Impending Problems
+## Terraform Impending Problems
 
 - Code Duplication
   - Resources created in `dev` environment needs to be copied over to `staging` and `prod` environment. Copying of resources might look alright but when your environment scales up, this become really taxing and error-prone.
@@ -73,7 +74,7 @@ Terragrunt can absolutely solve the issues I mentioned above!
 
 <hr>
 
-# Terragrunt
+# Let's Go Terragrunt!
 
 ### What is Terragrunt?
 
@@ -120,7 +121,7 @@ You can reference to my [Terragrunt-POC](https://github.com/Tsuweiquan/terragrun
    - Global variables can be inferred by folder name in the path, allowing all stacks to utilize the variables and apply to their resources.
 8. Generating files automatically via Terragrunt
 
-### Folder Tree
+## Folder Tree
 
 ```
 ├── readme.md
@@ -157,7 +158,7 @@ You can reference to my [Terragrunt-POC](https://github.com/Tsuweiquan/terragrun
 └── terragrunt.hcl
 ```
 
-### Stacks
+## Stacks
 
 I have created 2 sample stacks, `s3_frontend_stack` and `another_backend_stack` in the `/terraform-root/stacks/` directory. In this folder, the DRY terraform code should be written here.
 
@@ -202,7 +203,7 @@ include "root" {
 }
 ```
 
-### Multi Region and Multi Environment
+## Multi Region and Multi Environment
 
 Firstly, I have created 2 folders under `terraform_root/`, with AWS region name.
 
@@ -242,7 +243,7 @@ inputs = {
 }
 ```
 
-### Global Variables
+## Global Variables
 
 The global variables can be declared in `/terragrunt.hcl`. The root `terragrunt.hcl` file is a configuration file that defines settings for a Terraform project's infrastructure. This is also the file that declares the backend to store the remote state. In this file, we can also declare global variables which I do so based on folder path.
 
@@ -275,7 +276,7 @@ From this path, terragrunt can set
 
 terragrunt on the `s3_frontend_stack` stack in `dev` environment will apply the above value to it's stack. This method is very good to do resource tagging!
 
-### Generating files
+## Generating files
 
 Terragrunt offers a feature to generate files that are duplicated in every stack.  
 The `generate` blocks in Terragrunt allow you to:
@@ -339,7 +340,7 @@ s3_frontend_stack
 
 States are in S3 bucket, in REGION folder and in ENVIRONMENT folder.
 
-# How to run
+## How to run
 
 ```
 # Ensure you have AWS Access & Secret Key in your pc before running
@@ -364,6 +365,6 @@ terragrunt plan
 terragrunt apply
 ```
 
-# Resources created via Terragrunt
+### Resources created via Terragrunt
 
 ![](./2025-01-25-terragrunt-images/s3-buckets-created.png)
