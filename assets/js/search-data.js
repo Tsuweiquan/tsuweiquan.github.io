@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-terragrunt",
+        },{id: "post-leaving-my-first-job",
+      
+        title: "Leaving my first job",
+      
+      description: "Why did i left my first job?",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/leaving-my-first-job/";
+        
+      },
+    },{id: "post-terragrunt",
       
         title: "Terragrunt",
       
