@@ -4,7 +4,9 @@ github_users:
 repo_description_lines_max: 3
 
 github_repos:
+  - tsuweiquan/StockAnalysis
   - tsuweiquan/terragrunt-poc
   - tsuweiquan/AWS-IAM-Extractor
-  - tsuweiquan/GetCryptoPriceV2_bot\
+  - tsuweiquan/GetCryptoPriceV2_bot
   - tsuweiquan/Certified-Kubernetes-Administrator-Practice
+  - tsuweiquan/CKA-Practice
