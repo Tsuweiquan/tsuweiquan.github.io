@@ -34,7 +34,7 @@ ninja.data = [{
       
         title: "Leaving my first job",
       
-      description: "Why did i left my first job?",
+      description: "Why did i leave my first job?",
       section: "Posts",
       handler: () => {
         
