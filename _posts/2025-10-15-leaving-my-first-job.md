@@ -2,7 +2,7 @@
 layout: post
 title: Leaving my first job
 date: 2025-10-15 21:00:00
-description: Why did i left my first job?
+description: Why did i leave my first job?
 tags: M-DAQ Devops Job First
 categories: Retrospective
 future: true
