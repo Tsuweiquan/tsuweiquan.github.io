@@ -276,8 +276,8 @@ jekyll-archives:
     tag: "/blog/tag/:name/"
     category: "/blog/category/:name/"
 
-display_tags: ["GitOps", "Cloud", "Infrastructure", "AWS", "Terraform", "Terragrunt"]
-display_categories: ["infrastructure-as-code"]
+display_tags: ["GitOps", "Cloud", "Infrastructure", "AWS", "Terraform", "Terragrunt", "Retrospective"]
+display_categories: ["infrastructure-as-code", "Retrospective", "Cloud"]
 # display_tags: ["formatting", "images", "links", "math", "code", "blockquotes"] # these tags will be displayed on the front page of your blog
 # display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
 
