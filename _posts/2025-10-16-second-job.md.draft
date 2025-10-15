@@ -1,0 +1,49 @@
+---
+layout: post
+title: My Second Job
+date: 2025-10-16 20:00:00
+description: Start of a new journey 🛣️
+tags: Platform Engineer
+categories: Retrospective
+future: true
+toc:
+  sidebar: left
+---
+
+### What did I get myself into? ⚡
+- Energy Company
+- Senior Platform Engineering
+- Different industry compared to M-DAQ
+- Different in culture / mindset / purpose
+- Friend working there as well
+
+### What happened 🤔
+- Didn't know that they are really focus on Decision Documents, from my previous organization, there was not a single Decision Docs and have never written one
+- Hero Culture
+    - Saw insecure setup and immediately tries to fix it
+- Misalignment in Ideals & Goals
+    - I didn't have a clear understanding of the ideals and goals of the team, the lead left the team shortly after I joined.
+- Security Posture misfit
+    - there was a misfit when I tried to introduce tighter security measures
+- Too focus on suggesting change to better solutions but with not much impactful value
+- Influence by colleagues and standards from Financial Institute and trying to push for similar security posture
+
+### What I could have done better 🧗‍♂️
+
+1. I should have used my probation time to focus on analyzing the existing infrastructure setup and question *WHY* it was done like this. Understand it from a technical perspective to the business needs. Document the reason down and best to always have a diagram drawn for any business flows.
+    - Always good to question  *WHY* before suggesting change
+    - Need to also understand the limitations that influence this design
+2.
+- Pragmatic Engineer
+- Understand before execution
+- Critical Analysis without any influence from team mates
+- Managing Bias
+
+### What I have done right and should continue doing
+1. I took time to analyze the network flow that was designed and deployed by the ex-engineer. I trace the setup from source to destination, draw the architecture diagram, understand why it was designed in that day and present it to other colleagues to verify the flow.
+    - There is always a reason why it was implemented that way.
+
+2. Studied the CI/CD setup in Github Actions and understand the terraform structure
+3. Request for knowledge transfer
+
+### Support from colleagues 😊
