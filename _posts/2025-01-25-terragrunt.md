@@ -278,7 +278,7 @@ terragrunt on the `s3_frontend_stack` stack in `dev` environment will apply the 
 
 ## Generating files
 
-Terragrunt offers a feature to generate files that are duplicated in every stack.  
+Terragrunt offers a feature to generate files that are duplicated in every stack.
 The `generate` blocks in Terragrunt allow you to:
 
 1. Automatically create consistent configuration files across multiple stacks
