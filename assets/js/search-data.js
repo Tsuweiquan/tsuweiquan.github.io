@@ -38,7 +38,7 @@ ninja.data = [{
       section: "Posts",
       handler: () => {
         
-          window.location.href = "/blog/2025/second-job.md/";
+          window.location.href = "/blog/2025/second-job/";
         
       },
     },{id: "post-leaving-my-first-job",
