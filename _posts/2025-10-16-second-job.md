@@ -10,14 +10,14 @@ toc:
   sidebar: left
 ---
 
-### ⚡ New workplace, new start?
+### New workplace, new start?
 
 I have joined a Energy Company in mid 2025 and this is the start of my 2nd Job. The company is in the Energy Industry which is a different from my first job.
 I was intrigued to join this company as I wanted to explore a different industry and see how the culture and mindset differ from my previous workplace.
 I was also curious about the technologies used in the energy industry and wanted to see how different or similar it is compared to the finance industry.
 My role here is a Senior Platform Engineer, working closely with the DevOps team to provide a stable and secure platform for the development teams to build and deploy their applications.
 
-### 🌅 Initial Expectations
+### Initial Expectations
 
 #### Decision Documents
 
@@ -86,7 +86,7 @@ Only after gaining their trust, respect and understanding of the business needs,
 
 I now hold this phrase dearly to my professional life: "Don’t grow a company with just the knowledge you have — let the company grow you by expanding your knowledge."
 
-### 🧗‍♂️ What I could have done better
+### What I could have done better
 
 1. I should have used my probation time to focus on analyzing the existing infrastructure setup and question _WHY_ it was done like this. Understand it from a technical perspective to the business needs. Document the reason down and best to always have a diagram drawn for any business flows.
    - Always good to question _WHY_ before suggesting change
@@ -100,7 +100,7 @@ TO BE CONTINUED
 - Critical Analysis without any influence from team mates
 - Managing Bias
 
-### 💪 Learn to work, work to learn
+### Learn to work, work to learn
 1. I took time to analyze the network flow that was designed and deployed by the ex-engineer. I trace the setup from source to destination, draw the architecture diagram, understand why it was designed in that day and present it to other colleagues to verify the flow.
     - There is always a reason why it was implemented that way.
 
