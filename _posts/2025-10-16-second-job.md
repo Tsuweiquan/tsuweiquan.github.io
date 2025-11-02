@@ -10,16 +10,16 @@ toc:
   sidebar: left
 ---
 
+<p align="center">
+   <img src="../blog/2025/second-job/new_job.png" width="800" alt="New Journey">
+</p>
+
 ### ⚡ New workplace, new start?
 
 I have joined a Energy Company in mid 2025 and this is the start of my 2nd Job. The company is in the Energy Industry which is a different from my first job.
 I was intrigued to join this company as I wanted to explore a different industry and see how the culture and mindset differ from my previous workplace.
 I was also curious about the technologies used in the energy industry and wanted to see how different or similar it is compared to the finance industry.
 My role here is a Senior Platform Engineer, working closely with the DevOps team to provide a stable and secure platform for the development teams to build and deploy their applications.
-
-<p align="center">
-   <img src="../blog/2025/second-job/new_job.png" width="300" alt="New Journey">
-</p>
 
 ### 🌅 Initial Expectations
 
