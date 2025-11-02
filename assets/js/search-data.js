@@ -30,7 +30,18 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/cv/";
           },
-        },{id: "post-my-second-job",
+        },{id: "post-gcp-workload-identity-pool-for-github-workflow-integration",
+      
+        title: "GCP Workload Identity Pool for Github Workflow Integration",
+      
+      description: "Setting up GCP Workload Identity Pool for Github Workflow Integration",
+      section: "Posts",
+      handler: () => {
+        
+          window.location.href = "/blog/2025/gcp-to-github/";
+        
+      },
+    },{id: "post-my-second-job",
       
         title: "My Second Job",
       
