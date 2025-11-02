@@ -13,7 +13,7 @@ toc:
 # Setup GCP Workload Identity Pool for Github Workflow Integration
 
 <p align="center">
-  <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/workflow.png" width="400" alt="workflow">
+  <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/workflow.png" width="800" alt="workflow">
 </p>
 
 - From: https://github.com/google-github-actions/auth?tab=readme-ov-file#workload-identity-federation-through-a-service-account
@@ -65,11 +65,11 @@ toc:
 ## Create an iam workload identity pool
 
   <p align="center">
-    <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-workload-identity-pool.png" width="400" alt="create-workload-identity-pool">
+    <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-workload-identity-pool.png" width="800" alt="create-workload-identity-pool">
   </p>
 
   <p align="center">
-      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-workload-identity-pool-2.png" width="400" alt="create-workload-identity-pool-2">
+      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-workload-identity-pool-2.png" width="800" alt="create-workload-identity-pool-2">
   </p>
 
 ```bash
@@ -83,15 +83,15 @@ gcloud iam workload-identity-pools create "twq-github-identity-pool" \
 ## Add providers into IAM workload identity provider
 
   <p align="center">
-        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/add-provider-to-workload-identity-pool.png" width="400" alt="add-provider-to-workload-identity-pool">
+        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/add-provider-to-workload-identity-pool.png" width="800" alt="add-provider-to-workload-identity-pool">
     </p>
 
   <p align="center">
-        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/configure-provider-attributes.png" width="400" alt="configure-provider-attributes">
+        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/configure-provider-attributes.png" width="800" alt="configure-provider-attributes">
     </p>
 
   <p align="center">
-        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/configure-provider-attributes-conditions.png" width="400" alt="configure-provider-attributes-conditions">
+        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/configure-provider-attributes-conditions.png" width="800" alt="configure-provider-attributes-conditions">
     </p>
 
 ```bash
@@ -152,7 +152,7 @@ Flow:
 3. Unmapped attributes are ignored. There are many [\*\*Custom claims provided by GitHub](https://docs.github.com/en/actions/reference/security/oidc#custom-claims-provided-by-github)\*\* that I did not map above for now. In fact, the more we map the more flexible it is.
 
 <p align="center">
-      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/workload-identity-pool-created.png" width="400" alt="workload-identity-pool-created">
+      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/workload-identity-pool-created.png" width="800" alt="workload-identity-pool-created">
    </p>
 
 ---
@@ -162,7 +162,7 @@ Flow:
 - Service account name: `github-oidc-sa`
 
 <p align="center">
-      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-service-account.png" width="400" alt="create-service-account">
+      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/create-service-account.png" width="800" alt="create-service-account">
    </p>
 
 - We will give the `github-oidc-sa` service account to have permissions to these services
@@ -173,7 +173,7 @@ Flow:
   ```
 
 <p align="center">
-      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/sa-assign-role.png" width="400" alt="sa-assign-role">
+      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/sa-assign-role.png" width="800" alt="sa-assign-role">
    </p>
 
 ```bash
@@ -199,7 +199,7 @@ gcloud projects add-iam-policy-binding rock-bonus-250011 \
 - In the Console → Access to your Service account and click `Principal with access` → `Grant access`
 
     <p align="center">
-      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/iam-policy-binding-for-sa.png" width="400" alt="iam-policy-binding-for-sa">
+      <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/iam-policy-binding-for-sa.png" width="800" alt="iam-policy-binding-for-sa">
    </p>
 
   - It is **essential** that the principals is setup correctly with the right principalSet and the required assign role is `WorkloadIdentityUser`
@@ -255,7 +255,7 @@ gcloud iam service-accounts add-iam-policy-binding $SERVICE_ACCOUNT_EMAIL \
   - `GCP_SA_EMAIL` → `github-oidc-sa@rock-bonus-250011.iam.gserviceaccount.com`
 
       <p align="center">
-        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/github-secrets.png" width="400" alt="github-secrets">
+        <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/github-secrets.png" width="800" alt="github-secrets">
       </p>
 
   - Prepare the provider name that was created in the **_Workload Identity Pools_**
