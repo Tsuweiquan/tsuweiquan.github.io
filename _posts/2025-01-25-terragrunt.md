@@ -333,10 +333,10 @@ s3_frontend_stack
 
 ### Statefile are stored in S3 with such prefix /REGION/ENVIRONMENT/STACK_NAME
 
-![](./2025-01-25-terragrunt-images/image.png)
-![](./2025-01-25-terragrunt-images/image-1.png)
-![](./2025-01-25-terragrunt-images/image-2.png)
-![](./2025-01-25-terragrunt-images/image-3.png)
+![](../blog/2025/terragrunt/2025-01-25-terragrunt-images/image.png)
+![](../blog/2025/terragrunt/2025-01-25-terragrunt-images/image-1.png)
+![](../blog/2025/terragrunt/2025-01-25-terragrunt-images/image-2.png)
+![](../blog/2025/terragrunt/2025-01-25-terragrunt-images/image-3.png)
 
 States are in S3 bucket, in REGION folder and in ENVIRONMENT folder.
 
