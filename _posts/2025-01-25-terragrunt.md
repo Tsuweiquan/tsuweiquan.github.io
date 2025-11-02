@@ -367,4 +367,4 @@ terragrunt apply
 
 ### Resources created via Terragrunt
 
-![](./2025-01-25-terragrunt-images/s3-buckets-created.png)
+![](../blog/2025/terragrunt/2025-01-25-terragrunt-images/s3-buckets-created.png)
