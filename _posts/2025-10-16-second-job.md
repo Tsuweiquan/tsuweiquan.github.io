@@ -11,7 +11,7 @@ toc:
 ---
 
 <p align="center">
-   <img src="../blog/2025/second-job/new_job.png" width="800" alt="New Journey">
+   <img src="https://tsuweiquan.github.io/blog/2025/second-job/new_job.png" width="800" alt="New Journey">
 </p>
 
 ### ⚡ New workplace, new start?
@@ -111,7 +111,7 @@ I now hold this phrase dearly to my professional life: "Don’t grow a company w
      - I should keep an open mind and actively seek out diverse perspectives and solutions, even if they challenge my existing beliefs or knowledge. Try new technologies and solutions that I have never used before. Understand the pros and cons of each solution and evaluate them based on their merits and relevance to the situation. Document them in my own knowledge base for future reference and grow my knowledge. The solution that I am biased towards might not always be the best for the current situation but could be the best for another situation in the future.
 
    <p align="center">
-      <img src="../blog/2025/second-job/bias.png" width="400" alt="Bias">
+      <img src="https://tsuweiquan.github.io/blog/2025/second-job/bias.png" width="400" alt="Bias">
    </p>
 
    Today, I feel that his formula is very apt for my current situation:
