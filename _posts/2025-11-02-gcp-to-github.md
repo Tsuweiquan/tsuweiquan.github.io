@@ -11,7 +11,7 @@ toc:
 ---
 
 # Setup GCP Workload Identity Pool for Github Workflow Integration
-
+This setup guide will show you how to setup GCP Workload Identity Pool to allow Github Workflow to access GCP resources securely via OIDC.
 <p align="center">
   <img src="https://tsuweiquan.github.io/blog/2025/gcp-to-github/workflow.png" width="800" alt="workflow">
 </p>
